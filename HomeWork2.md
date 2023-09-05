@@ -26,33 +26,33 @@ lxd init
 ```
 lxc version
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-1.png)
 Следующей командой создаем новый контейнер с именем testOne и задаем путь для файла конфигурации:
 ```
 lxc-create -n testOne -t ubuntu -f /usr/share/doc/lxc/lxc-veth.conf 
 ```
 Видим большое количество текста, значит команда введена правильно. В тексте указана ошибка открытия файла конфигурации указанного нами. На запуск контейнера это не повлияет, а случается из-за того, что такого файла на данном этапе не существует.
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-2.png)
 После того, как контейнер установился мы видим следующий текст:
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-2.png)
 Система оповещает нас о том, что контейнер создан, у него заданы стандартные параметры (логин: ubuntu, пароль: ubuntu).
 
 Теперь необходимо запустить созданный нами контейнер. Для этого вводим следующую команду:
 ```
 sudo lxc-start -d -n testOne
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-3.png)
 Если ситема никак не оповестила нас ни о чем, значит команда успешно выполнена. Проверить это можно, например, путем входа в контейнер:
 ```
 sudo lxc-attach -n testOne
 ```
 Видим, что мы зашли в testOne под root.
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-4.png)
 Вводим следующую команду для просмотра выделенной и свободной памяти:
 ```
 free -m
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-5.png)
 Для удобства сразу перейдем в нужную папку:
 ```
 cd sys/fs/cgroup
@@ -62,9 +62,9 @@ cd sys/fs/cgroup
 cat memory.max
 ```
 Здесь мы можем наблюдать, что ограничение памяти установлено на максимальное значение.
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-6.png)
 Далее выполним тоже самое из папки .lxc:
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-7.png)
 Убеждаемся в максимальном значении. Выходим из контейнера:
 ```
 exit
@@ -73,17 +73,17 @@ exit
 ```
 sudo cat /var/lib/lxc/testOne/config
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-8.png)
 После этого любым удобным редактором (я делал через редактор nano) добавляем в этот файл конфигурации вниз текста следующую строку:
 ```
 lxc.cgroup2.memory.max = 256M
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-9.png)
 Таким образом мы ограничили потребление памяти на более 256 мб. Останавливаем контейнер и снова запускаем его. Вводим следующую команду, что бы убедиться, что ограничение работает:
 ```
 sudo cat /sys/fs/cgroup/lxc.payload.testOne/memory.max
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-10.png)
 Как мы видим, система пересчитала и выдала результат, где много цифр. Не пугаемся, это значение примерно равно 256 мб.
 
 Далее просмотрим список имеющихся в нашей системе контейнеров:
@@ -94,19 +94,19 @@ sudo lxc-ls -f
 ```
 sudo nano /var/lib/lxc/testOne/config
 ```
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-11.png)
 Добавляем в конец текста файла конфигурации следующую строку:
 ```
 lxc.start.auto = 1
 ```
 Сохраняем, закрываем редактор и перезагружаем систему, например командой '$ reboot'.
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-12.png)
 После перезагрузки снова выполняем команду:
 ```
 sudo lxc-ls -f
 ```
 Вводим пароль root и убеждаемся, что контейнер запущен и автозапуск включен.
-...
+![](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW2/%D0%94%D0%972%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-13.png)
 При запуске контейнера можно в параметрах команды указать, где хранить логи, например:
 ```
 lxc-start -n testOne --logfile log.log
