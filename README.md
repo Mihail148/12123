@@ -14,4 +14,10 @@
 ```
 sudo unshare -pf -n --mount-proc bash
 ```
-https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW1/%D0%94%D0%971%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-1.png
+![Начало кода](https://github.com/Mihail148/CONTAINER_GB/blob/main/PICTURES_HW1/%D0%94%D0%971%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD-1.png)
+
+В параллельном терминале смотрим, что произошло:
+```
+ps -afx
+```
+
